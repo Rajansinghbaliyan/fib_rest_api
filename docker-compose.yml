@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres-server:
+    image: 'postgres:14.0-alpine'
+    restart: always
+    container_name: postgres-server
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: namonamo
+  rest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: rest-api
+    ports:
+      - 8081:8080
+    volumes:
+      - .:/app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-server:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=namonamo
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgres-server
