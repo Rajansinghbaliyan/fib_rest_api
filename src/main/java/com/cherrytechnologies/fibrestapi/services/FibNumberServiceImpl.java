@@ -22,8 +22,8 @@ public class FibNumberServiceImpl implements FibNumberService {
 
     private final FibNumberRepository repository;
     private final RestTemplate restTemplate;
-    @Value("${worker.url}")
-    private static String WORKER_URL;
+    @Value("${WORKER_URL}")
+    private String WORKER_URL;
 
     @Override
     public FibNumber getById(UUID uuid) {
@@ -54,9 +54,9 @@ public class FibNumberServiceImpl implements FibNumberService {
     }
 
     private int getFionnaciValue(int number) {
+        log.info("GET "+ WORKER_URL+number);
         ResponseEntity<FibSeries> response = restTemplate
-                .getForEntity(WORKER_URL + "/"+number, FibSeries.class);
-
+                .getForEntity(WORKER_URL +number, FibSeries.class);
         return response.getBody().getValue();
     }
 }
