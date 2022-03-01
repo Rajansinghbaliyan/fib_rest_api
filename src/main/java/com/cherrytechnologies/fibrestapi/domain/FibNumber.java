@@ -26,6 +26,8 @@ public class FibNumber {
 
     private Integer number;
 
+    private Integer value;
+
     @Version
     private Long version;
 

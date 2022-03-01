@@ -8,6 +8,10 @@ services:
       - ./data/db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: namonamo
+  redis-server:
+    container_name: redis
+    hostname: redis
+    image: 'redis'
   rest-api:
     build:
       context: .
@@ -24,3 +28,4 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - postgres-server
+      - redis-server
